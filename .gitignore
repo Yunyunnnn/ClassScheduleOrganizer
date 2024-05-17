@@ -18,3 +18,65 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Laravel specific
+/vendor
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/storage/app/public
+/storage/framework/cache/data
+/storage/logs
+/storage/framework/sessions
+/storage/framework/testing
+
+# Environment variables
+.env
+.env.backup
+.env.local
+.env.development
+.env.production
+.env.testing
+.env.staging
+
+# IDE and editor settings
+.idea
+.vscode
+*.sublime-project
+*.sublime-workspace
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Deployment
+.forge
+.vagrant
+
+# PHPUnit
+phpunit.xml
+phpunit.xml.dist
+
+# Composer dependencies
+/vendor/
+/composer.lock
+
+# NPM dependencies
+/node_modules/
+/npm-debug.log
+/yarn-error.log
+yarn.lock
+
+# Laravel Mix
+/public/mix-manifest.json
+/public/css/
+/public/js/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache
+.phpunit.result.cache
