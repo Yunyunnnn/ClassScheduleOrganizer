@@ -6,12 +6,21 @@
     <title>Teacher Registration</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto mt-20 flex flex-col items-center">
         <h1 class="text-3xl font-bold mb-8">Teacher Registration</h1>
         <form action="{{ route('teacher.register') }}" method="POST">
+            @if ($errors->any())
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+        <strong>Error!</strong>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+            @endif
             @csrf
             <div class="mb-4">
                 <label for="first_name" class="block text-gray-700">First Name</label>

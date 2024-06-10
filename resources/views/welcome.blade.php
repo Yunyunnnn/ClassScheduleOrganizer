@@ -15,9 +15,10 @@
             <a href="{{ route('student.register') }}" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md font-semibold">Student Registration</a>
             <a href="{{ route('teacher.login') }}" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-md font-semibold">Teacher Login</a>
             <a href="{{ route('teacher.register') }}" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-md font-semibold">Teacher Registration</a>
-            <a href="{{ route('admin.login') }}" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-md font-semibold">Admin Login</a>
+            <a href="{{ route('admin.login') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-md font-semibold">Admin Login</a>
         </div>
     </div>
 </body>
 </html>
+
 

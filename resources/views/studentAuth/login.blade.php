@@ -14,6 +14,16 @@
         <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
             <h1 class="text-3xl font-bold mb-8 text-center">Login</h1>
             <form action="{{ route('student.login') }}" method="POST">
+                @if ($errors->any())
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+        <strong>Error!</strong>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+                @endif  
                 @csrf
                 <div class="mb-4">
                     <label for="student_id" class="block text-gray-700">Student ID</label>

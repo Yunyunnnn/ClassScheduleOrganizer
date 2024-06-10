@@ -12,6 +12,16 @@
     <div class="container mx-auto mt-20 flex flex-col items-center">
         <h1 class="text-3xl font-bold mb-8">Teacher Login</h1>
         <form action="{{ route('teacher.login') }}" method="POST">
+            @if ($errors->any())
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+        <strong>Error!</strong>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+            @endif
             @csrf
             <div class="mb-4">
                 <label for="email" class="block text-gray-700">Email</label>

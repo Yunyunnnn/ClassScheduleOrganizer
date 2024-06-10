@@ -26,7 +26,6 @@ class Authenticate extends Middleware
                 return route('teacher.login');
             }
 
-            // Default redirect to main login
             return route('login');
         }
     }

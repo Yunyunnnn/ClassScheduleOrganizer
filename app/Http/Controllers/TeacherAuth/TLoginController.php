@@ -18,15 +18,14 @@ class TLoginController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        $user = Teacher::where('email', $request->email)->first();
-        if ($user && !$user->approved) {
-            return redirect()->back()->withErrors(['message' => 'Your account is not approved yet.']);
-        }
+        \Log::info('Attempting login with credentials: ', $credentials);
 
         if (Auth::guard('teacher')->attempt($credentials)) {
-            return redirect()->intended('teacher/home');
+            \Log::info('Login successful, redirecting to home');
+            return redirect()->intended(route('teacher.home'));
         }
 
+        \Log::warning('Login failed, redirecting back with error');
         return redirect()->back()->withErrors(['message' => 'Invalid credentials']);
     }
 
