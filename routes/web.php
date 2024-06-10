@@ -42,7 +42,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('logout', [AdminAuthController::class, 'logout'])->name('logout');
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('home', [HomeController::class, 'adminHome'])->name('home');
-        Route::post('approve/{id}/{type}', [HomeController::class, 'approved'])->name('approve');
+        Route::post('approve/{id}/{type}', [HomeController::class, 'approve'])->name('approve');
     });
 });
 

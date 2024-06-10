@@ -22,27 +22,35 @@ class HomeController extends Controller
     {
         $pendingStudents = Student::where('approved', false)->get();
         $pendingTeachers = Teacher::where('approved', false)->get();
-        $pendingUsers = $pendingStudents->merge($pendingTeachers);
-        return view('Admin.home', ['pendingUsers' => $pendingUsers]);
+        return view('Admin.home', [
+            'pendingStudents' => $pendingStudents,
+            'pendingTeachers' => $pendingTeachers
+        ]);
     }
 
-    public function approved($id, $type)
+    public function approve($id, $type)
     {
-        if ($type == 'Student') {
-            $user = Student::find($id);
-        } elseif ($type == 'Teacher') {
-            $user = Teacher::find($id);
-        } else {
+        $type = strtolower($type);
+    
+        if (!in_array($type, ['student', 'teacher'])) {
             return redirect()->back()->with('error', 'Invalid user type.');
         }
-
-        if ($user) {
-            $user->approved = true;
-            $user->save();
-            return redirect()->route('admin.home')->with('success', "$type approved successfully.");
+    
+        $user = null;
+        if ($type == 'student') {
+            $user = Student::find($id);
+        } elseif ($type == 'teacher') {
+            $user = Teacher::find($id);
         }
-
-        return redirect()->back()->with('error', 'User not found.');
+    
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found.');
+        }
+    
+        $user->approved = true;
+        $user->save();
+    
+        return redirect()->route('admin.home')->with('success', ucfirst($type) . ' approved successfully.');
     }
 
     public function index()
