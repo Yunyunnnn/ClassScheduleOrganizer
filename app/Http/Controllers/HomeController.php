@@ -17,14 +17,14 @@ class HomeController extends Controller
     {
         return view('Teachers.home')->with('approved', auth()->user()->approved);
     }
-
+    
     public function adminHome()
     {
         $pendingStudents = Student::where('approved', false)->get();
         $pendingTeachers = Teacher::where('approved', false)->get();
         return view('Admin.home', [
-            'pendingStudents' => $pendingStudents,
-            'pendingTeachers' => $pendingTeachers
+            'students' => $pendingStudents,
+            'teachers' => $pendingTeachers
         ]);
     }
 

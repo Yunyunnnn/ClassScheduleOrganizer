@@ -1,13 +1,15 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\TeacherAuth\TLoginController;
+use App\Http\Controllers\AdminAuth\AdminAuthController;
+use App\Http\Controllers\TeacherAuth\TRegisterController;
 use App\Http\Controllers\StudentAuth\LoginController as StudentLoginController;
 use App\Http\Controllers\StudentAuth\RegisterController as StudentRegisterController;
-use App\Http\Controllers\TeacherAuth\TLoginController;
-use App\Http\Controllers\TeacherAuth\TRegisterController;
-use App\Http\Controllers\AdminAuth\AdminAuthController;
-use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
@@ -32,8 +34,12 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
     Route::post('logout', [TLoginController::class, 'logout'])->name('logout');
     Route::middleware(['auth:teacher'])->group(function () {
         Route::get('home', [HomeController::class, 'teacherHome'])->name('home');
+        Route::resource('subjects', SubjectController::class);
+        Route::post('subjects/{subject}/attendance', [AttendanceController::class, 'markAttendance'])->name('subjects.attendance');
+        Route::get('subjects/{subject}/students', [SubjectController::class, 'students'])->name('subjects.students');
     });
 });
+
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -54,4 +60,6 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/not-approved', function () {
     return view('not_approved');
 })->name('not.approved');
+
+
 

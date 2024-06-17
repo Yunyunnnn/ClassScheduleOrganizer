@@ -1,3 +1,5 @@
+@extends('Teachers/teachers')
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +8,17 @@
     <title>Teacher Home</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100"> 
+
+        @section('title', 'Teacher Dashboard')        
+        
+        @section('content')
+            <h1 class="text-3xl font-bold mb-6">Welcome, Teacher</h1>
+            <p class="text-gray-700 text-lg">Your dashboard content goes here.</p>
+        @endsection 
+
     <div class="container mx-auto py-10">
+
         @if(auth()->user()->approved)
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6">
                 Your account is approved.
@@ -18,13 +29,13 @@
                 Your account is not yet verified by the admin. Please wait for approval.
             </div>
         @endif
-        <h1 class="text-3xl font-bold mb-6">Welcome, Teacher</h1>
-        <p class="text-gray-700 text-lg">Your content goes here.</p>
+        
         <form method="POST" action="{{ route('teacher.logout') }}">
             @csrf
             <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded mt-6">Logout</button>
         </form>
     </div>
+
 </body>
 </html>
 

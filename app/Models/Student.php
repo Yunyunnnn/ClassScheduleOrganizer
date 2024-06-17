@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
-class Student extends Authenticatable
+class Student extends Model
 {
     use HasFactory;
 
@@ -14,11 +14,18 @@ class Student extends Authenticatable
     protected $keyType = 'string';
 
     protected $fillable = [
-        'student_id', 'first_name', 'last_name', 'email', 'password', 'approved',
-    ];
-
-    protected $hidden = [
+        'student_id',
+        'first_name',
+        'last_name',
+        'email',
         'password',
     ];
+
+    public static function generateStudentId()
+    {
+        // Implement your logic to generate a unique student_id
+        return (string) \Str::uuid();
+    }
 }
+
 
