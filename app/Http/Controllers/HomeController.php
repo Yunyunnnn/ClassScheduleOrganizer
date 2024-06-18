@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -15,8 +16,17 @@ class HomeController extends Controller
 
     public function teacherHome()
     {
-        return view('Teachers.home')->with('approved', auth()->user()->approved);
+        $approved = auth()->user()->approved;
+        $subjects = Subject::where('teacher_id', auth()->id())->get();
+    
+        return view('Teachers.home', [
+            'subjects' => $subjects,
+            'approved' => $approved,
+            'approval_message_dismissed' => session('approval_message_dismissed', false)
+        ]);
     }
+    
+      
     
     public function adminHome()
     {
@@ -57,4 +67,12 @@ class HomeController extends Controller
     {
         return view('Students.home');
     }
+
+    public function dismissApprovalMessage()
+    {
+        session(['approval_message_dismissed' => true]);
+        return response()->json(['status' => 'success']);
+    }
+    
+
 }

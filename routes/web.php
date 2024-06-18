@@ -32,14 +32,17 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
     Route::get('login', [TLoginController::class, 'showLoginForm'])->name('login');
     Route::post('login', [TLoginController::class, 'login']);
     Route::post('logout', [TLoginController::class, 'logout'])->name('logout');
+
     Route::middleware(['auth:teacher'])->group(function () {
         Route::get('home', [HomeController::class, 'teacherHome'])->name('home');
         Route::resource('subjects', SubjectController::class);
-        Route::post('subjects/{subject}/attendance', [AttendanceController::class, 'markAttendance'])->name('subjects.attendance');
         Route::get('subjects/{subject}/students', [SubjectController::class, 'students'])->name('subjects.students');
+        Route::get('subjects/create', [SubjectController::class, 'create'])->name('subjects.create');
+        Route::post('subjects', [SubjectController::class, 'store'])->name('subjects.store');
+        Route::get('subjects/{subject}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
+        Route::post('dismissApprovalMessage', [HomeController::class, 'dismissApprovalMessage'])->name('dismissApprovalMessage');
     });
 });
-
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {

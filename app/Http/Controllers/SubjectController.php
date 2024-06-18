@@ -83,7 +83,9 @@ class SubjectController extends Controller
 
     public function students(Subject $subject)
     {
-        $students = $subject->students; // Assuming the relationship is defined
-        return view('Subjects.students', compact('subject', 'students'));
+        $students = $subject->students()->get();
+    
+        return view('subjects.students', compact('students', 'subject'));
     }
+    
 }
