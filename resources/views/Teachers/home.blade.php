@@ -5,14 +5,6 @@
 @section('content')
     <div class="container mx-auto py-10">
         <h1 class="text-3xl font-bold mb-6">Welcome, {{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</h1>
-        
-        @if ($approved)
-            @if (session('approval_message_dismissed', false) == false)
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" id="approvalMessage">
-                    Your account is approved.
-                    <button onclick="dismissApprovalMessage()" class="absolute top-0 bottom-0 right-0 px-4 py-3">X</button>
-                </div>
-            @endif
 
             <table class="min-w-full bg-white shadow-md rounded my-6">
                 <thead class="bg-blue-500 text-white">
@@ -69,13 +61,7 @@
                     @endforeach
                 </tbody>
             </table> 
-        @else
-            <p class="text-gray-700 text-lg">Your account is not yet verified by the admin. Please wait for approval.</p>
-            <form method="POST" action="{{ route('teacher.logout') }}">
-                @csrf
-                <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded mt-6">Logout</button>
-            </form>
-        @endif
+
     </div>
 
     <script>
