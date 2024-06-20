@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Student Dashboard')</title>
+    <title>@yield('title', 'Subject Search')</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script>
         function toggleDropdown() {
@@ -84,10 +84,41 @@
         </div>
     </nav>
 
-    <!-- Student Dashboard Content -->
+    <!-- Subject Search Content -->
     <div class="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold mb-6">Student Dashboard</h1>
-        <!-- Your dashboard content goes here -->
+        <h1 class="text-3xl font-bold mb-6">Subject Search</h1>
+        <!-- Your subject search content goes here -->
+        <form action="{{ route('student.subject.search.results') }}" method="GET">
+            <div class="mb-4">
+                <label for="subjectCode" class="block text-sm font-medium text-gray-700">Subject Code</label>
+                <input type="text" name="subjectCode" id="subjectCode"
+                       class="mt-1 focus:ring-gray-500 focus:border-gray-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+            </div>
+            <div class="mb-4">
+                <label for="subjectName" class="block text-sm font-medium text-gray-700">Subject Name</label>
+                <input type="text" name="subjectName" id="subjectName"
+                       class="mt-1 focus:ring-gray-500 focus:border-gray-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+            </div>
+            <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded-md">Search</button>
+        </form>
+        <!-- Search results will be displayed here -->
+        @if(isset($subjects))
+            <div class="mt-6">
+                <h2 class="text-2xl font-semibold mb-4">Search Results</h2>
+                <ul>
+                    @forelse($subjects as $subject)
+                        <li class="mb-2">
+                            <div class="p-4 bg-white shadow rounded-lg">
+                                <h3 class="text-lg font-bold">{{ $subject->subject_name }} ({{ $subject->subject_code }})</h3>
+                                <p>{{ $subject->description }}</p>
+                            </div>
+                        </li>
+                    @empty
+                        <li>No subjects found</li>
+                    @endforelse
+                </ul>
+            </div>
+        @endif
     </div>
 
 </body>

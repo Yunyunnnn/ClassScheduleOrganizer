@@ -11,7 +11,7 @@ class Teacher extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'first_name', 'last_name', 'middle_initial', 'email', 'password', 'approved', 'dismissed_approval_message',
+        'first_name', 'last_name', 'middle_initial', 'email', 'password', 'approved',
     ];
 
     protected $hidden = [

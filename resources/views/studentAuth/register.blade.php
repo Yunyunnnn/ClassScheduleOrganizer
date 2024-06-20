@@ -6,7 +6,6 @@
     <title>Student Registration</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto flex justify-center items-center h-screen">
@@ -14,14 +13,14 @@
             <h1 class="text-3xl font-bold mb-8 text-center">Register</h1>
             <form action="{{ route('student.register') }}" method="POST">
                 @if ($errors->any())
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
-        <strong>Error!</strong>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-        </div>
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+                        <strong>Error!</strong>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endif
                 @csrf
                 <div class="mb-4">
@@ -44,9 +43,13 @@
                     <label for="password" class="block text-gray-700">Password</label>
                     <input type="password" name="password" id="password" class="form-input mt-1 block w-full" required>
                 </div>
-                <div class="mb-6">
+                <div class="mb-4">
                     <label for="password_confirmation" class="block text-gray-700">Confirm Password</label>
                     <input type="password" name="password_confirmation" id="password_confirmation" class="form-input mt-1 block w-full" required>
+                </div>
+                <div class="mb-4">
+                    <label for="block_number" class="block text-gray-700">Block Number</label>
+                    <input type="text" name="block_number" id="block_number" class="form-input mt-1 block w-full" required>
                 </div>
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Register</button>
             </form>

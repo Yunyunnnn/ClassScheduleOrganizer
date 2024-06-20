@@ -88,4 +88,18 @@ class SubjectController extends Controller
         return view('subjects.students', compact('students', 'subject'));
     }
     
+    public function search()
+    {
+        return view('Subjects/subject-search');
+    }
+
+    public function showSearchForm(Request $request)
+    {
+        $subjectCode = $request->input('subjectCode');
+        $subjects = Subject::where('subject_code', $subjectCode)->get();
+    
+        return view('Subjects.subject-search', compact('subjects', 'subjectCode'));
+    }
+    
+    
 }

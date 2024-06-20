@@ -4,13 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\TeacherAuth\TLoginController;
 use App\Http\Controllers\AdminAuth\AdminAuthController;
 use App\Http\Controllers\TeacherAuth\TRegisterController;
 use App\Http\Controllers\StudentAuth\LoginController as StudentLoginController;
 use App\Http\Controllers\StudentAuth\RegisterController as StudentRegisterController;
 
+// Existing routes for Welcome, Student, Teacher, Admin
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 // Student routes
@@ -20,6 +20,10 @@ Route::prefix('student')->name('student.')->group(function () {
     Route::get('login', [StudentLoginController::class, 'showLoginForm'])->name('login');
     Route::post('login', [StudentLoginController::class, 'login']);
     Route::post('logout', [StudentLoginController::class, 'logout'])->name('logout');
+
+    Route::get('subject-search', [SubjectController::class, 'showSearchForm'])->name('subject.search');
+    Route::post('subject-search/results', [SubjectController::class, 'search'])->name('subject.search.results');
+    
     Route::middleware(['auth:student'])->group(function () {
         Route::get('home', [HomeController::class, 'studentHome'])->name('home');
     });
@@ -44,6 +48,7 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
     });
 });
 
+
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login');
@@ -64,5 +69,4 @@ Route::get('/not-approved', function () {
     return view('not_approved');
 })->name('not.approved');
 
-
-
+?>

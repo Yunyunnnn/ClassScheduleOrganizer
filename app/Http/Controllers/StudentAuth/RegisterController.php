@@ -48,6 +48,4 @@ class RegisterController extends Controller
     
         return redirect()->route('student.home'); 
     }
-
-    
 }

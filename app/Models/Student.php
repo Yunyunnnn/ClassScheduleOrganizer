@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as AuthenticatableStudent;
 use Illuminate\Database\Eloquent\Model;
 
-class Student extends Model
+class Student extends AuthenticatableStudent
 {
     use HasFactory;
 
@@ -19,13 +21,12 @@ class Student extends Model
         'last_name',
         'email',
         'password',
+        'block_number',
+        'approved',
     ];
 
     public static function generateStudentId()
     {
-        // Implement your logic to generate a unique student_id
         return (string) \Str::uuid();
     }
 }
-
-
