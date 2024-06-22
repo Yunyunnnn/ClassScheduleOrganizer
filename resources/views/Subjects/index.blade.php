@@ -77,11 +77,11 @@
             @endforeach
         </tbody>
     </table>
-    
+
     <script>
         function dismissSuccessMessage() {
             document.getElementById('successMessage').remove();
         }
     </script>
-    
+
 @endsection

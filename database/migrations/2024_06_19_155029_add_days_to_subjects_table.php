@@ -9,14 +9,14 @@ class AddDaysToSubjectsTable extends Migration
     public function up()
     {
         Schema::table('subjects', function (Blueprint $table) {
-            $table->json('days')->after('time_to');  
+            $table->json('days')->nullable()->after('time_to');
         });
     }
 
     public function down()
     {
         Schema::table('subjects', function (Blueprint $table) {
-            $table->dropColumn('days'); 
+            $table->dropColumn('days');
         });
     }
 }

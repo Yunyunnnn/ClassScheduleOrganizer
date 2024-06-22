@@ -21,5 +21,14 @@ class Teacher extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-}
 
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class, 'teacher_id');
+    }
+
+    public function enrollments()
+    {
+        return $this->hasManyThrough(Enrollment::class, Subject::class, 'teacher_id', 'subject_id');
+    }
+}

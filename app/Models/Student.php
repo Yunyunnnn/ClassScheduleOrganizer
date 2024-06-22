@@ -23,10 +23,32 @@ class Student extends AuthenticatableStudent
         'password',
         'block_number',
         'approved',
+        'year_level',
+        'course',
     ];
 
     public static function generateStudentId()
     {
         return (string) \Str::uuid();
+    }
+
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class, 'student_id');
+    }
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'subject_student', 'student_id', 'subject_code')
+                    ->withPivot('approved')
+                    ->withTimestamps();
     }
 }

@@ -20,7 +20,20 @@ class Subject extends Model
 
     public function students()
     {
-        return $this->belongsToMany(Student::class, 'subject_student', 'subject_id', 'student_id')
+        return $this->belongsToMany(Student::class, 'subject_student', 'subject_code', 'student_id')
+                    ->withPivot('approved')
                     ->withTimestamps();
     }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class, 'subject_code');
+    }
+
+    public function announcements()
+    {
+        return $this->hasMany(Announcement::class, 'subject_code');
+    }
+
+
 }

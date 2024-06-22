@@ -28,23 +28,22 @@ class SubjectController extends Controller
             'days_of_week' => 'required|array',
         ]);
 
-        $teacherId = auth()->id();
-        $existingSubject = Subject::where('teacher_id', $teacherId)
-                                  ->where('subject_code', $request->code)
-                                  ->exists();
+        // Check if subject code already exists
+        $existingSubject = Subject::where('subject_code', $request->code)->exists();
 
         if ($existingSubject) {
-            return redirect()->back()->with('warning', 'Subject code already exists for your account.');
+            return redirect()->back()->with('warning', 'Subject code already exists.');
         }
 
-        $subject = Subject::create([
-            'name' => $request->name,
-            'subject_code' => $request->code,
-            'time_from' => $request->time_from,
-            'time_to' => $request->time_to,
-            'days_of_week' => implode(',', $request->days_of_week),
-            'teacher_id' => $teacherId,
-        ]);
+        // Create a new subject and associate it with the authenticated teacher
+        $subject = new Subject();
+        $subject->name = $request->name;
+        $subject->subject_code = $request->code;
+        $subject->time_from = $request->time_from;
+        $subject->time_to = $request->time_to;
+        $subject->days_of_week = implode(',', $request->days_of_week);
+        $subject->teacher_id = auth()->id();
+        $subject->save();
 
         return redirect()->route('teacher.subjects.index')->with('success', 'Subject added successfully.');
     }
@@ -84,22 +83,22 @@ class SubjectController extends Controller
     public function students(Subject $subject)
     {
         $students = $subject->students()->get();
-    
+
         return view('subjects.students', compact('students', 'subject'));
     }
-    
-    public function search()
+
+    public function searchResults(Request $request)
     {
-        return view('Subjects/subject-search');
+        $subjectCode = $request->input('subjectId');
+        $subjects = Subject::where('subject_code', 'LIKE', '%' . $subjectCode . '%')->get();
+
+        return view('Students.subject-search', compact('subjects', 'subjectCode'));
     }
+
 
     public function showSearchForm(Request $request)
     {
-        $subjectCode = $request->input('subjectCode');
-        $subjects = Subject::where('subject_code', $subjectCode)->get();
-    
-        return view('Subjects.subject-search', compact('subjects', 'subjectCode'));
+         return view('Students.subject-search');
     }
-    
-    
+
 }

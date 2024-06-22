@@ -18,6 +18,8 @@
                 <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20 hidden" id="dropdownMenu">
                     <a href="{{ route('teacher.home') }}" class="block px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">Dashboard</a>
                     <a href="{{ route('teacher.subjects.index') }}" class="block px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">Subjects</a>
+                    <a href="{{ route('teacher.students.index') }}" class="block px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">Manage Students</a>
+
                     <form id="logout-form" method="POST" action="{{ route('teacher.logout') }}">
                         @csrf
                         <button type="submit" class="w-full text-left px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">Logout</button>

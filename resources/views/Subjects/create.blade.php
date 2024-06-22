@@ -5,9 +5,40 @@
 @section('content')
     <h1 class="text-3xl font-bold mb-6">Add Subject</h1>
 
+    <!-- Warning Modal -->
     @if(session('warning'))
-        <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-6">
-            {{ session('warning') }}
+        <div id="warningModal" class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true" style="display: block;">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+                <!-- This element is to trick the browser into centering the modal contents. -->
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+                <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-yellow-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 18h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9z"/>
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                Warning
+                            </h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500">
+                                    {{ session('warning') }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+                        <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm" onclick="closeWarningModal()">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     @endif
 
@@ -42,30 +73,21 @@
                 @endforeach
             </div>
         </div>
-        <div class="mb-4">
-            <label for="students" class="block text-gray-700">Add Students (optional)</label>
-            <div id="students">
-                <div class="flex mb-2">
-                    <input type="text" name="student_first_names[]" placeholder="First Name" class="w-1/2 px-4 py-2 border rounded mr-2">
-                    <input type="text" name="student_last_names[]" placeholder="Last Name" class="w-1/2 px-4 py-2 border rounded">
-                </div>
-            </div>
-            <button type="button" id="add-student" class="bg-blue-500 text-white px-4 py-2 rounded">Add Another Student</button>
-        </div>
+
         <div>
             <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Create Subject</button>
         </div>
     </form>
 
     <script>
-        document.getElementById('add-student').addEventListener('click', function () {
-            const studentDiv = document.createElement('div');
-            studentDiv.className = 'flex mb-2';
-            studentDiv.innerHTML = `
-                <input type="text" name="student_first_names[]" placeholder="First Name" class="w-1/2 px-4 py-2 border rounded mr-2">
-                <input type="text" name="student_last_names[]" placeholder="Last Name" class="w-1/2 px-4 py-2 border rounded">
-            `;
-            document.getElementById('students').appendChild(studentDiv);
+        function closeWarningModal() {
+            document.getElementById('warningModal').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('warning'))
+                document.getElementById('warningModal').style.display = 'block';
+            @endif
         });
     </script>
 @endsection

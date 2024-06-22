@@ -10,10 +10,12 @@ class CreateSubjectStudentTable extends Migration
     {
         Schema::create('subject_student', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subject_id')->constrained()->onDelete('cascade');
+            $table->foreignId('subject_code')->constrained('subjects')->onDelete('cascade');
             $table->string('student_id');
-            $table->foreign('student_id')->references('student_id')->on('students')->onDelete('cascade');
             $table->timestamps();
+            $table->boolean('approved')->default(false);
+
+            $table->foreign('student_id')->references('student_id')->on('students')->onDelete('cascade');
         });
     }
 

@@ -23,6 +23,9 @@ class RegisterController extends Controller
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:students'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'block_number' => ['required', 'string', 'max:255'],
+            'year_level' => ['nullable', 'string', 'max:255'],
+            'course' => ['nullable', 'string', 'max:255'],
         ]);
     }
 
@@ -35,6 +38,9 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'approved' => false,
+            'block_number' => $data['block_number'],
+            'year_level' => $data['year_level'],
+            'course' => $data['course'],
         ]);
     }    
 

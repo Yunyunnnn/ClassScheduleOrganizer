@@ -18,16 +18,14 @@ class HomeController extends Controller
     {
         $approved = auth()->user()->approved;
         $subjects = Subject::where('teacher_id', auth()->id())->get();
-    
+
         return view('Teachers.home', [
             'subjects' => $subjects,
             'approved' => $approved,
             'approval_message_dismissed' => session('approval_message_dismissed', false)
         ]);
     }
-    
-      
-    
+
     public function adminHome()
     {
         $pendingStudents = Student::where('approved', false)->get();
@@ -41,25 +39,25 @@ class HomeController extends Controller
     public function approve($id, $type)
     {
         $type = strtolower($type);
-    
+
         if (!in_array($type, ['student', 'teacher'])) {
             return redirect()->back()->with('error', 'Invalid user type.');
         }
-    
+
         $user = null;
         if ($type == 'student') {
             $user = Student::find($id);
         } elseif ($type == 'teacher') {
             $user = Teacher::find($id);
         }
-    
+
         if (!$user) {
             return redirect()->back()->with('error', 'User not found.');
         }
-    
+
         $user->approved = true;
         $user->save();
-    
+
         return redirect()->route('admin.home')->with('success', ucfirst($type) . ' approved successfully.');
     }
 
@@ -73,6 +71,19 @@ class HomeController extends Controller
         session(['approval_message_dismissed' => true]);
         return response()->json(['status' => 'success']);
     }
-    
+
+    public function showHomePage()
+    {
+        if
+        (auth()->user()->approved) {
+        return view('Students.home');
+    }
+    else
+        {
+        return view('Students.home')->with('approvalPending', true);
+        }
+    }
+
+
 
 }
