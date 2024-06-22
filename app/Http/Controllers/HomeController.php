@@ -72,18 +72,32 @@ class HomeController extends Controller
         return response()->json(['status' => 'success']);
     }
 
-    public function showHomePage()
+    public function dashboard()
     {
-        if
-        (auth()->user()->approved) {
-        return view('Students.home');
-    }
-    else
-        {
-        return view('Students.home')->with('approvalPending', true);
-        }
+        $enrolledSubjects = Subject::whereHas('students', function ($query) {
+            $query->where('student_subject.student_id', auth()->id());
+        })->with(['teacher', 'students' => function ($query) {
+            $query->where('student_subject.student_id', auth()->id());
+        }])->get();
+
+        return view('Students.dashboard', [
+            'enrolledSubjects' => $enrolledSubjects,
+        ]);
     }
 
+    public function leaveSubject(Request $request)
+    {
+        $validatedData = $request->validate([
+            'subject_code' => 'required|string',
+        ]);
+
+        $student = auth()->user();
+
+        $subjectCode = $validatedData['subject_code'];
+        $student->subjects()->detach($subjectCode);
+
+        return redirect()->back()->with('success', 'You have successfully left the subject.');
+    }
 
 
 }

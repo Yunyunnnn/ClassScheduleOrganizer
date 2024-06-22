@@ -9,17 +9,24 @@ use App\Models\Teacher;
 
 class StudentEnrollmentController extends Controller
 {
-    public function enroll(Request $request, Subject $subject)
+    public function enroll(Request $request)
     {
-        $student = $subject->students();
+        $student = auth()->user(); // Assuming authenticated user is a Student model
 
-        if ($student->subjects()->where('subject_code', $subject->subject_code)->exists()) {
+        $request->validate([
+            'subject_code' => 'required|exists:subjects,subject_code',
+        ]);
+
+        $subjectCode = $request->input('subject_code');
+        $subject = Subject::where('subject_code', $subjectCode)->firstOrFail();
+
+        if ($student->isEnrolledInSubject($subject)) {
             return redirect()->back()->with('warning', 'You are already enrolled in this subject.');
         }
 
-        $student->subjects()->attach($subject);
+        $student->subjects()->attach($subject->subject_code, ['approved' => false]);
 
-        return redirect()->back()->with('success', 'You have successfully enrolled in the subject.');
+        return redirect()->back()->with('success', 'Enrollment request submitted. Waiting for approval.');
     }
 
     public function manageStudents()
@@ -32,20 +39,21 @@ class StudentEnrollmentController extends Controller
             $subjects = collect();
         }
 
-        return view('Teachers.index', compact('subjects'));
+        return view('teachers.index', compact('subjects'));
     }
 
     public function approveStudent(Subject $subject, Student $student)
     {
-        $subject->students()->updateExistingPivot($student->id, ['approved' => true]);
+        $subject->students()->updateExistingPivot($student->student_id, ['approved' => true]);
 
         return redirect()->back()->with('success', 'Student enrollment approved.');
     }
 
     public function rejectStudent(Subject $subject, Student $student)
     {
-        $subject->students()->detach($student->id);
+        $subject->students()->detach($student->student_id);
 
         return redirect()->back()->with('success', 'Student enrollment rejected.');
     }
 }
+

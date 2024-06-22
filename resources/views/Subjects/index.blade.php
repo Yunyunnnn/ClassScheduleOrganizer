@@ -65,8 +65,8 @@
                     </td>
                     <td class="py-4 px-6 text-center border-b border-gray-300">
                         <div class="flex justify-center space-x-4">
-                            <a href="{{ route('teacher.subjects.edit', $subject) }}" class="text-gray-600 hover:text-gray-900">Edit</a>
-                            <form action="{{ route('teacher.subjects.destroy', $subject) }}" method="POST">
+                            <a href="{{ route('teacher.subjects.edit', $subject->subject_code) }}" class="text-gray-600 hover:text-gray-900">Edit</a>
+                            <form action="{{ route('teacher.subjects.destroy', $subject->subject_code) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>

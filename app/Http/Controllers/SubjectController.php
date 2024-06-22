@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use App\Models\Teacher;
+
 
 class SubjectController extends Controller
 {
@@ -95,10 +97,15 @@ class SubjectController extends Controller
         return view('Students.subject-search', compact('subjects', 'subjectCode'));
     }
 
-
     public function showSearchForm(Request $request)
     {
          return view('Students.subject-search');
     }
+
+    public function viewhome(Request $request)
+    {
+         return view('Students.dashboard');
+    }
+
 
 }

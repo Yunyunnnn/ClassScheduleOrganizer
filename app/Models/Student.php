@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as AuthenticatableStudent;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Student extends AuthenticatableStudent
+class Student extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $primaryKey = 'student_id';
     public $incrementing = false;
@@ -27,11 +27,6 @@ class Student extends AuthenticatableStudent
         'course',
     ];
 
-    public static function generateStudentId()
-    {
-        return (string) \Str::uuid();
-    }
-
     protected $hidden = [
         'password', 'remember_token',
     ];
@@ -45,10 +40,16 @@ class Student extends AuthenticatableStudent
         return $this->hasMany(Enrollment::class, 'student_id');
     }
 
-    public function subjects()
+    public function subjects(): BelongsToMany
     {
-        return $this->belongsToMany(Subject::class, 'subject_student', 'student_id', 'subject_code')
+        return $this->belongsToMany(Subject::class, 'student_subject', 'student_id', 'subject_code')
                     ->withPivot('approved')
                     ->withTimestamps();
     }
+
+    public function isEnrolledInSubject(Subject $subject)
+    {
+        return $this->subjects()->where('student_subject.subject_code', $subject->subject_code)->exists();
+    }
+
 }

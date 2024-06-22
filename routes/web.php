@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\StudentSubjectController;
 use App\Http\Controllers\StudentEnrollmentController;
 use App\Http\Controllers\TeacherAuth\TLoginController;
 use App\Http\Controllers\AdminAuth\AdminAuthController;
@@ -22,23 +21,17 @@ Route::prefix('student')->name('student.')->group(function () {
     Route::post('login', [StudentLoginController::class, 'login']);
     Route::post('logout', [StudentLoginController::class, 'logout'])->name('logout');
 
-
-
     Route::middleware(['auth:student'])->group(function () {
         Route::get('home', [HomeController::class, 'studentHome'])->name('home');
         Route::get('subject-search', [SubjectController::class, 'showSearchForm'])->name('subject.search');
         Route::get('subject-search/results', [SubjectController::class, 'searchResults'])->name('subject.search.results');
+        Route::post('/enroll', [StudentEnrollmentController::class, 'enroll'])->name('subject.enroll');
+        Route::get('dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+        Route::post('/student/subject/leave', [HomeController::class, 'leaveSubject'])->name('subject.leave');
 
-        Route::post('/enroll/{subject}', [StudentEnrollmentController::class, 'enroll'])->name('enroll');
-        Route::post('/student/subject/enroll', [StudentSubjectController::class, 'enroll'])->name('subject.enroll');
-
-        Route::get('subject-search', [SubjectController::class, 'showSearchForm'])->name('subject.search');
-        Route::get('subject-search/results', [SubjectController::class, 'searchResults'])->name('subject.search.results');
     });
 });
 
-
-// Teacher routes
 // Teacher routes
 Route::prefix('teacher')->name('teacher.')->group(function () {
     Route::get('register', [TRegisterController::class, 'showRegistrationForm'])->name('register');
@@ -55,14 +48,13 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::post('subjects', [SubjectController::class, 'store'])->name('subjects.store');
         Route::get('subjects/{subject}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
         Route::post('dismissApprovalMessage', [HomeController::class, 'dismissApprovalMessage'])->name('dismissApprovalMessage');
-
         Route::get('/students', [StudentEnrollmentController::class, 'manageStudents'])->name('students.index');
-        Route::post('/teacher/subjects/{subject}/students/{student}/approve', [StudentEnrollmentController::class, 'approveStudent'])->name('students.approve');
-        Route::post('/teacher/subjects/{subject}/students/{student}/reject', [StudentEnrollmentController::class, 'rejectStudent'])->name('teacher.students.reject');
+
+        Route::post('/subjects/{subject}/students/{student}/approve', [StudentEnrollmentController::class, 'approveStudent'])->name('students.approve');
+        Route::post('/subjects/{subject}/students/{student}/reject', [StudentEnrollmentController::class, 'rejectStudent'])->name('students.reject');
 
     });
 });
-
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {

@@ -10,7 +10,8 @@ class CreateAnnouncementsTable extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subject_id')->constrained('subjects')->onDelete('cascade');
+            $table->string('subject_code');
+            $table->foreign('subject_code')->references('subject_code')->on('subjects')->onDelete('cascade');
             $table->string('title');
             $table->text('body');
             $table->timestamps();

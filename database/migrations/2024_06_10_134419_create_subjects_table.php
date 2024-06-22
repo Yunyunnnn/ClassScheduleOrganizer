@@ -9,9 +9,8 @@ class CreateSubjectsTable extends Migration
     public function up()
     {
         Schema::create('subjects', function (Blueprint $table) {
-            $table->id();
+            $table->string('subject_code')->primary();
             $table->string('name');
-            $table->string('subject_code')->unique();
             $table->time('time_from');
             $table->time('time_to');
             $table->foreignId('teacher_id')->constrained()->onDelete('cascade');
@@ -24,6 +23,3 @@ class CreateSubjectsTable extends Migration
         Schema::dropIfExists('subjects');
     }
 }
-
-
-

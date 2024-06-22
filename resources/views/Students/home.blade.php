@@ -63,7 +63,7 @@
                                         <div class="text-xs text-gray-500">Year: {{ auth()->user()->year_level }}</div>
                                         <div class="text-xs text-gray-500">Course: {{ auth()->user()->course }}</div>
                                     </div>
-                                    <a href="{{ route('student.home') }}"
+                                    <a href="{{ route('student.dashboard') }}"
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                         role="menuitem">Dashboard</a>
                                     <a href="{{ route('student.subject.search') }}"

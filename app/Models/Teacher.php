@@ -29,6 +29,6 @@ class Teacher extends Authenticatable
 
     public function enrollments()
     {
-        return $this->hasManyThrough(Enrollment::class, Subject::class, 'teacher_id', 'subject_id');
+        return $this->hasManyThrough(Enrollment::class, Subject::class, 'teacher_id', 'subject_code');
     }
 }

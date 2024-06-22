@@ -9,7 +9,7 @@ class Announcement extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['subject_id', 'message'];
+    protected $fillable = ['subject_code', 'message'];
 
     public function subject()
     {
