@@ -13,7 +13,7 @@
             @foreach($subjects as $subject)
             <a href="{{ route('teacher.view.students', ['subject' => $subject->subject_code]) }}"
                 class="subject-box inline-block px-4 py-2 bg-gray-200 text-gray-700 rounded-full mr-3 mb-3 transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white">
-                {{ $subject->name }} ({{ $subject->subject_code }})
+                {{ $subject->name }} - {{ $subject->subject_code }}
             </a>
             @endforeach
         </div>
@@ -72,8 +72,7 @@
                         <tr class="hover:bg-gray-100">
                             <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->first_name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->last_name }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->student_id
-                               ->student_id }}</td>
+                            <t- class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->student_id }}</td>
                                <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->email }}</td>
                                <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->block }}</td>
                                <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->year }}</td>

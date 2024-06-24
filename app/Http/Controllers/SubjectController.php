@@ -129,9 +129,17 @@ class SubjectController extends Controller
 
     public function destroy(Subject $subject)
     {
+        // Detach related students from this subject's schedules
+        foreach ($subject->schedules as $schedule) {
+            $schedule->students()->detach();
+        }
+
+        // Now delete the subject
         $subject->delete();
+
         return redirect()->route('teacher.subjects.list')->with('success', 'Subject deleted successfully.');
     }
+
 
     public function students(Subject $subject)
     {

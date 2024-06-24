@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-100">
@@ -13,16 +14,31 @@
             <a href="{{ route('teacher.home') }}" class="text-white text-lg font-bold">Teacher Dashboard</a>
             <div class="relative">
                 <button id="menuButton" class="text-white focus:outline-none">
-                    Menu
+                    <i class="fas fa-bars"></i> <!-- FontAwesome icon for Menu -->
                 </button>
                 <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20 hidden" id="dropdownMenu">
-                    <a href="{{ route('teacher.home') }}" class="block px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">Dashboard</a>
-                    <a href="{{ route('teacher.subjects.list') }}" class="block px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">Subjects</a>
-                    <a href="{{ route('teacher.view.students') }}" class="block px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">Manage Students</a>
-                    <a href="{{ route('teacher.student.management') }}" class="block px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">Students Enrollment</a>
+                    <a href="{{ route('teacher.home') }}" class="block px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+                        <i class="fas fa-home mr-2"></i> <!-- FontAwesome icon for Home -->
+                        Dashboard
+                    </a>
+                    <a href="{{ route('teacher.subjects.list') }}" class="block px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+                        <i class="fas fa-book mr-2"></i> <!-- FontAwesome icon for Subjects -->
+                        Subjects
+                    </a>
+                    <a href="{{ route('teacher.view.students') }}" class="block px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+                        <i class="fas fa-users mr-2"></i> <!-- FontAwesome icon for Manage Students -->
+                        Manage Students
+                    </a>
+                    <a href="{{ route('teacher.student.management') }}" class="block px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+                        <i class="fas fa-user-graduate mr-2"></i> <!-- FontAwesome icon for Students Enrollment -->
+                        Enrollment
+                    </a>
                     <form id="logout-form" method="POST" action="{{ route('teacher.logout') }}">
                         @csrf
-                        <button type="submit" class="w-full text-left px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">Logout</button>
+                        <button type="submit" class="w-full text-left px-4 py-2 text-gray-800 hover:bg-blue-500 hover:text-white">
+                            <i class="fas fa-sign-out-alt mr-2"></i> <!-- FontAwesome icon for Logout -->
+                            Logout
+                        </button>
                     </form>
                 </div>
             </div>
@@ -47,7 +63,10 @@
                     </div>
                     <form method="POST" action="{{ route('teacher.logout') }}" class="text-center">
                         @csrf
-                        <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded-md mt-4 hover:bg-red-600">Logout</button>
+                        <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded-md mt-4 hover:bg-red-600">
+                            <i class="fas fa-sign-out-alt mr-2"></i> <!-- FontAwesome icon for Logout -->
+                            Logout
+                        </button>
                     </form>
                 </div>
             </div>

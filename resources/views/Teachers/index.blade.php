@@ -28,35 +28,33 @@
         @endif
 
         @foreach($subjects as $subject)
-        <div class="bg-white shadow-lg rounded-lg mb-6">
-            <div class="p-6">
-                <h2 class="text-2xl font-semibold mb-4">{{ $subject->name }}</h2>
-                <p class="text-gray-600 mb-4">{{ $subject->subject_code }}</p>
-                <div class="border-t pt-4">
-                    <h3 class="text-xl font-semibold mb-2">Enrolling Students:</h3>
-                    <ul>
-                        @forelse($subject->students as $student)
-                            <li class="mb-3 flex justify-between items-center">
-                                <span class="font-semibold">{{ $student->first_name }} {{ $student->last_name }}</span> - Year: {{ $student->pivot->year_level }} - Block: {{ $student->pivot->block_number }}
-                                <form action="{{ route('teacher.students.approve', ['subject' => $subject->subject_code, 'student' => $student->student_id]) }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" class="bg-green-500 text-white px-3 py-1 rounded ml-2">Approve</button>
-                                </form>
+            <div class="bg-white shadow-lg rounded-lg mb-6">
+                <div class="p-6">
+                    <h2 class="text-2xl font-semibold mb-4">{{ $subject->name }}</h2>
+                    <p class="text-gray-600 mb-4">{{ $subject->subject_code }}</p>
+                    <div class="border-t pt-4">
+                        <h3 class="text-xl font-semibold mb-2">Enrolling Students:</h3>
+                        <ul>
+                            @forelse($subject->students as $student)
+                                <li class="mb-3 flex justify-between items-center">
+                                    <span class="font-semibold">{{ $student->first_name }} {{ $student->last_name }}</span> - Year: {{ $student->pivot->year_level }} - Block: {{ $student->pivot->block_number }}
+                                    <form action="{{ route('teacher.students.approve', ['subject' => $subject->subject_code, 'student' => $student->student_id]) }}" method="POST" class="inline">
+                                        @csrf
+                                        <button type="submit" class="bg-green-500 text-white px-3 py-1 rounded ml-2">Approve</button>
+                                    </form>
 
-                                <form action="{{ route('teacher.students.reject', ['subject' => $subject->subject_code, 'student' => $student->student_id]) }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded ml-2">Reject</button>
-                                </form>
-                            </li>
-                        @empty
-                            <li class="text-gray-700">No enrollment applications yet.</li>
-                        @endforelse
-                    </ul>
+                                    <form action="{{ route('teacher.students.reject', ['subject' => $subject->subject_code, 'student' => $student->student_id]) }}" method="POST" class="inline">
+                                        @csrf
+                                        <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded ml-2">Reject</button>
+                                    </form>
+                                </li>
+                            @empty
+                                <li class="text-gray-700">No enrollment applications yet.</li>
+                            @endforelse
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    @endforeach
-
-
+        @endforeach
     </div>
 @endsection

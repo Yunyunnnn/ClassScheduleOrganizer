@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Student Home')</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js" integrity="sha512-AqZt1jUQQWn6QgClhW/4KadZlSBcc0ETFLV9NUpjz5L8s1ONiZ+cyWwFt+y/K3xuR+4gLNIcB7fFRyjSwBhEEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         function toggleDropdown() {
             document.getElementById('dropdown').classList.toggle('hidden');
@@ -40,10 +41,8 @@
     <nav class="bg-gradient-to-r from-blue-500 to-indigo-500 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                    <div class="flex-shrink-0">
-                        <h1 class="text-2xl font-bold text-white">Student Portal</h1>
-                    </div>
+                <div class="flex-1 flex items-center">
+                    <h1 class="text-2xl font-bold text-white">Student Portal</h1>
                 </div>
                 <div class="sm:ml-6 relative">
                     <div>
@@ -51,6 +50,7 @@
                             <button id="dropdownButton" type="button" onclick="toggleDropdown()"
                                 class="flex items-center text-white hover:text-gray-200 ">
                                 <span class="text-lg font-semibold">Menu</span>
+                                <i class="fas fa-chevron-down ml-2"></i>
                             </button>
                             <div id="dropdown"
                                 class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
@@ -64,16 +64,25 @@
                                         <div class="text-xs text-gray-500">Course: {{ auth()->user()->course }}</div>
                                     </div>
                                     <a href="{{ route('student.dashboard') }}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        role="menuitem">Dashboard</a>
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center justify-between"
+                                        role="menuitem">
+                                        <span>Dashboard</span>
+                                        <i class="fas fa-tachometer-alt"></i>
+                                    </a>
                                     <a href="{{ route('student.subject.search') }}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        role="menuitem">Subject Search</a>
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center justify-between"
+                                        role="menuitem">
+                                        <span>Subject Search</span>
+                                        <i class="fas fa-search"></i>
+                                    </a>
                                     <form method="POST" action="{{ route('student.logout') }}">
                                         @csrf
                                         <button type="submit"
-                                            class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                            role="menuitem">Logout</button>
+                                            class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center justify-between"
+                                            role="menuitem">
+                                            <span>Logout</span>
+                                            <i class="fas fa-sign-out-alt"></i>
+                                        </button>
                                     </form>
                                 </div>
                             </div>
