@@ -68,6 +68,9 @@
                                 <h3 class="text-lg font-bold text-gray-800 mb-2">Time:</h3>
                                 <p class="text-lg text-gray-700 pb-4">{{ date('h:i A', strtotime($subject->time_from)) }} until {{ date('h:i A', strtotime($subject->time_to)) }}</p>
 
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Room:</h3>
+                                <p class="text-lg text-gray-700 pb-4">{{ $subject->room }}</p>
+
                                 <p class="text-gray-600">{{ $subject->description }}</p>
 
                                 @if ($subject->isEnrolledByUser(auth()->user()))

@@ -15,7 +15,7 @@ class Subject extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'name', 'subject_code', 'time_from', 'time_to', 'teacher_id', 'days_of_week'
+        'name', 'subject_code', 'time_from', 'time_to', 'teacher_id', 'days_of_week','room',
     ];
 
     public function enrollments()
@@ -26,13 +26,6 @@ class Subject extends Model
     public function announcements()
     {
         return $this->hasMany(Announcement::class, 'subject_code');
-    }
-
-    public function subjects(): BelongsToMany
-    {
-        return $this->belongsToMany(Subject::class, 'student_subject', 'student_id', 'subject_code')
-                    ->withPivot('approved')
-                    ->withTimestamps();
     }
 
     public function teacher()
@@ -56,4 +49,6 @@ class Subject extends Model
     {
         return $this->students()->where('student_subject.student_id', $student->student_id)->wherePivot('approved', true)->exists();
     }
+
+
 }

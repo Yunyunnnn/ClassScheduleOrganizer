@@ -6,7 +6,6 @@
     <div class="max-w-4xl mx-auto py-8">
         <h1 class="text-3xl font-bold mb-6">Student Management</h1>
 
-        <!-- Flash Messages -->
         @if (session('success'))
             <div class="bg-green-500 text-white p-4 rounded mb-4 flex justify-between items-center">
                 <div>{{ session('success') }}</div>
@@ -52,7 +51,7 @@
                                     </form>
                                 </li>
                             @empty
-                                <li class="text-gray-700">No students enrolled yet.</li>
+                                <li class="text-gray-700">No enrollment application yet.</li>
                             @endforelse
                         </ul>
                     </div>

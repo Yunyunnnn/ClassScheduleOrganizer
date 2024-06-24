@@ -38,9 +38,13 @@
                 @endforeach
             </div>
         </div>
+        <div class="mb-4">
+            <label for="room" class="block text-gray-700">Room</label>
+            <input type="text" name="room" id="room" value="{{ $subject->room }}" class="w-full px-4 py-2 border rounded" required>
+        </div>
         <div class="flex items-center">
             <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded mr-4">Update Subject</button>
-            <a href="{{ route('teacher.subjects.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded">Back</a>
+            <a href="{{ route('teacher.subjects.list') }}" class="bg-gray-500 text-white px-4 py-2 rounded">Back</a>
         </div>
     </form>
 @endsection

@@ -11,7 +11,7 @@ class StudentEnrollmentController extends Controller
 {
     public function enroll(Request $request)
     {
-        $student = auth()->user(); // Assuming authenticated user is a Student model
+        $student = auth()->user();
 
         $request->validate([
             'subject_code' => 'required|exists:subjects,subject_code',

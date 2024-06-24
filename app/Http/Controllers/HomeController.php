@@ -6,6 +6,8 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class HomeController extends Controller
 {
@@ -78,7 +80,10 @@ class HomeController extends Controller
             $query->where('student_subject.student_id', auth()->id());
         })->with(['teacher', 'students' => function ($query) {
             $query->where('student_subject.student_id', auth()->id());
-        }])->get();
+        }])->get()->map(function ($subject) {
+            $subject->student = $subject->students->first();
+            return $subject;
+        });
 
         return view('Students.dashboard', [
             'enrolledSubjects' => $enrolledSubjects,
@@ -92,9 +97,13 @@ class HomeController extends Controller
         ]);
 
         $student = auth()->user();
-
         $subjectCode = $validatedData['subject_code'];
-        $student->subjects()->detach($subjectCode);
+
+        // Detach the subject from the student and delete the pivot record
+        DB::table('student_subject')
+            ->where('student_id', $student->student_id)
+            ->where('subject_code', $subjectCode)
+            ->delete();
 
         return redirect()->back()->with('success', 'You have successfully left the subject.');
     }

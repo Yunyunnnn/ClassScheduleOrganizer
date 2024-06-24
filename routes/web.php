@@ -44,17 +44,26 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::get('home', [HomeController::class, 'teacherHome'])->name('home');
         Route::resource('subjects', SubjectController::class);
         Route::get('subjects/{subject}/students', [SubjectController::class, 'students'])->name('subjects.students');
+        Route::post('dismissApprovalMessage', [HomeController::class, 'dismissApprovalMessage'])->name('dismissApprovalMessage');
+
+        //subject creation routes
         Route::get('subjects/create', [SubjectController::class, 'create'])->name('subjects.create');
+        Route::get('subjects', [SubjectController::class, 'index'])->name('subjects.list');
         Route::post('subjects', [SubjectController::class, 'store'])->name('subjects.store');
         Route::get('subjects/{subject}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
-        Route::post('dismissApprovalMessage', [HomeController::class, 'dismissApprovalMessage'])->name('dismissApprovalMessage');
-        Route::get('/students', [StudentEnrollmentController::class, 'manageStudents'])->name('students.index');
 
+        //student management routes
+        Route::get('/students', [StudentEnrollmentController::class, 'manageStudents'])->name('students.index');
+        Route::get('/student-management', [StudentEnrollmentController::class, 'manageStudents'])->name('student.management');
         Route::post('/subjects/{subject}/students/{student}/approve', [StudentEnrollmentController::class, 'approveStudent'])->name('students.approve');
         Route::post('/subjects/{subject}/students/{student}/reject', [StudentEnrollmentController::class, 'rejectStudent'])->name('students.reject');
 
+        //view student enrolled page routes
+        Route::get('/view-students/{subject?}', [SubjectController::class, 'viewStudents'])->name('view.students');
+
     });
 });
+
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -75,5 +84,10 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/not-approved', function () {
     return view('not_approved');
 })->name('not.approved');
+
+Route::get('/close-notification', function () {
+    session()->forget(['success', 'warning', 'error']);
+});
+
 
 ?>

@@ -10,16 +10,16 @@
 <body class="bg-gray-100">
     <div class="container mx-auto mt-20 flex flex-col items-center">
         <h1 class="text-3xl font-bold mb-8">Teacher Registration</h1>
-        <form action="{{ route('teacher.register') }}" method="POST">
+        <form id="registrationForm" action="{{ route('teacher.register') }}" method="POST">
             @if ($errors->any())
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
-        <strong>Error!</strong>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+                    <strong>Error!</strong>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
             @csrf
             <div class="mb-4">
@@ -52,5 +52,11 @@
             <a href="{{ route('welcome') }}" class="text-blue-500 hover:underline">Back to Welcome Page</a>
         </div>
     </div>
+
+    <script>
+        document.getElementById('middle_initial').addEventListener('input', function() {
+            this.value = this.value.charAt(0).toUpperCase();
+        });
+    </script>
 </body>
 </html>

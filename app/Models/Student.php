@@ -52,4 +52,5 @@ class Student extends Authenticatable
         return $this->subjects()->where('student_subject.subject_code', $subject->subject_code)->exists();
     }
 
+
 }

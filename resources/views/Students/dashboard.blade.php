@@ -1,6 +1,6 @@
 @extends('Students.home')
 
-@section('title', 'Subject Dashboard')
+@section('title', 'Student Dashboard')
 
 @section('content')
     <div class="max-w-4xl mx-auto py-8">
@@ -10,21 +10,21 @@
         @if (session('success'))
             <div class="bg-green-500 text-white p-4 rounded mb-4 flex justify-between items-center">
                 <div>{{ session('success') }}</div>
-                <button type="button" class="text-white hover:text-gray-200" onclick="this.parentElement.style.display='none'">&times;</button>
+                <button type="button" class="text-white hover:text-gray-200" onclick="closeNotification(this)">&times;</button>
             </div>
         @endif
 
         @if (session('warning'))
             <div class="bg-yellow-500 text-white p-4 rounded mb-4 flex justify-between items-center">
                 <div>{{ session('warning') }}</div>
-                <button type="button" class="text-white hover:text-gray-200" onclick="this.parentElement.style.display='none'">&times;</button>
+                <button type="button" class="text-white hover:text-gray-200" onclick="closeNotification(this)">&times;</button>
             </div>
         @endif
 
         @if (session('error'))
             <div class="bg-red-500 text-white p-4 rounded mb-4 flex justify-between items-center">
                 <div>{{ session('error') }}</div>
-                <button type="button" class="text-white hover:text-gray-200" onclick="this.parentElement.style.display='none'">&times;</button>
+                <button type="button" class="text-white hover:text-gray-200" onclick="closeNotification(this)">&times;</button>
             </div>
         @endif
 
@@ -55,16 +55,49 @@
                             <span class="ml-2 text-lg text-gray-700">{{ date('h:i A', strtotime($subject->time_from)) }} until {{ date('h:i A', strtotime($subject->time_to)) }}</span>
                         </div>
 
+                        <div class="flex items-center mb-4">
+                            <span class="text-lg font-semibold text-gray-800">Room:</span>
+                            <span class="ml-2 text-lg text-gray-700">{{ $subject->room }}</span>
+                        </div>
+
                         <p class="text-gray-600 mb-4">{{ $subject->description }}</p>
 
-                        <form action="{{ route('student.subject.leave') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="subject_code" value="{{ $subject->subject_code }}">
-                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded mt-4">Leave Subject</button>
-                        </form>
+                        @if ($subject->student && $subject->student->pivot->approved === 1)
+                            @php
+                                $sessionKey = 'enrollment_approved_' . $subject->subject_code;
+                            @endphp
+                            @if (!session()->has($sessionKey) && !session('closed_' . $sessionKey))
+                                <div class="bg-green-200 text-green-800 px-4 py-2 rounded-md mt-4">
+                                    Enrollment Approved
+                                    <button type="button" class="text-green-600 hover:text-green-900 ml-2" onclick="closeNotification(this, '{{ $sessionKey }}')">&times;</button>
+                                </div>
+                                @php
+                                    session()->put($sessionKey, true);
+                                @endphp
+                            @endif
+                            <form action="{{ route('student.subject.leave') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="subject_code" value="{{ $subject->subject_code }}">
+                                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded mt-4">Leave Subject</button>
+                            </form>
+                        @elseif ($subject->student && $subject->student->pivot->approved === 0)
+                            <div class="bg-yellow-200 text-yellow-800 px-4 py-2 rounded-md mt-4">
+                                Awaiting Approval
+                            </div>
+                        @endif
                     </div>
                 </div>
             @endforeach
         @endif
     </div>
+
+    <script>
+        function closeNotification(element, sessionKey) {
+            element.parentElement.style.display = 'none';
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "/close-notification", true);
+            xhr.send();
+            sessionStorage.setItem('closed_' + sessionKey, true);
+        }
+    </script>
 @endsection
