@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    public function studentHome()
-    {
-        return view('Students.home')->with('approved', auth()->user()->approved);
-    }
-
     public function teacherHome()
     {
         $approved = auth()->user()->approved;
@@ -76,18 +71,19 @@ class HomeController extends Controller
 
     public function dashboard()
     {
-        $enrolledSubjects = Subject::whereHas('students', function ($query) {
-            $query->where('student_subject.student_id', auth()->id());
-        })->with(['teacher', 'students' => function ($query) {
-            $query->where('student_subject.student_id', auth()->id());
-        }])->get()->map(function ($subject) {
-            $subject->student = $subject->students->first();
-            return $subject;
-        });
+        $student = auth()->user();
 
-        return view('Students.dashboard', [
-            'enrolledSubjects' => $enrolledSubjects,
-        ]);
+        // Retrieve enrolled subjects where the student is approved, with schedules
+        $enrolledSubjects = $student->subjects()
+                                    ->wherePivot('approved', 1) // Only approved enrollments
+                                    ->with(['teacher', 'schedules' => function ($query) use ($student) {
+                                        $query->whereHas('students', function ($subQuery) use ($student) {
+                                            $subQuery->where('students.student_id', $student->student_id); // Qualify with table name or alias
+                                        });
+                                    }])
+                                    ->get();
+
+        return view('Students.dashboard', compact('enrolledSubjects'));
     }
 
     public function leaveSubject(Request $request)

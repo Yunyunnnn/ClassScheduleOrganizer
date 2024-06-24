@@ -72,40 +72,41 @@
                         <tr class="hover:bg-gray-100">
                             <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->first_name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->last_name }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->student_id }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->email }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->block }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->year }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->course }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    @endif
+                            <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->student_id
+                               ->student_id }}</td>
+                               <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->email }}</td>
+                               <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->block }}</td>
+                               <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->year }}</td>
+                               <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ $student->course }}</td>
+                           </tr>
+                           @endforeach
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+       </div>
+       @endif
 
-    <!-- Placeholder for No Subject Selected -->
-    @if (!$selectedSubject)
-    <div class="bg-white shadow-md rounded-lg p-6">
-        <p class="text-lg">Select a subject to view students enrolled.</p>
-    </div>
-    @endif
-</div>
+       <!-- Placeholder for No Subject Selected -->
+       @if (!$selectedSubject)
+       <div class="bg-white shadow-md rounded-lg p-6">
+           <p class="text-lg">Select a subject to view students enrolled.</p>
+       </div>
+       @endif
+   </div>
 
-<style>
-    .subject-box {
-        transition: background-color 0.3s, color 0.3s;
-    }
-</style>
+   <style>
+       .subject-box {
+           transition: background-color 0.3s, color 0.3s;
+       }
+   </style>
 
-<script>
-    function clearFilters() {
-        document.getElementById('block_number').value = '';
-        document.getElementById('course').value = '';
-        document.getElementById('year').value = '';
-    }
-</script>
+   <script>
+       function clearFilters() {
+           document.getElementById('block_number').value = '';
+           document.getElementById('course').value = '';
+           document.getElementById('year').value = '';
+       }
+   </script>
 
-@endsection
+   @endsection

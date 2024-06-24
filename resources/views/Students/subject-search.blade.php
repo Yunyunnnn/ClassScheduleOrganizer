@@ -58,38 +58,38 @@
                                 <h3 class="text-lg font-bold text-gray-800 mb-2">Teacher:</h3>
                                 <p class="text-lg text-gray-700 pb-4">{{ $subject->teacher->first_name }} {{ $subject->teacher->last_name }}</p>
 
-                                <h3 class="text-lg font-bold text-gray-800 mb-2">Days:</h3>
-                                <div class="flex flex-wrap pb-4">
-                                    @foreach (explode(',', $subject->days_of_week) as $day)
-                                        <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">{{ $day }}</span>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Schedules:</h3>
+                                <ul>
+                                    @foreach ($subject->schedules as $schedule)
+                                        <li class="mb-4">
+                                            <div class="p-4 bg-gray-100 shadow-md rounded-lg">
+                                                <div class="flex justify-between items-center">
+                                                    <h4 class="text-lg font-bold text-gray-800">Block: {{ $schedule->block_number }}</h4>
+                                                    <div>
+                                                        <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded"> {{ $schedule->course }}</span>
+                                                        <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded"> {{ $schedule->year_level }}</span>
+                                                        <span class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded">{{ implode(', ', explode(',', $schedule->days_of_week)) }}</span>
+                                                    </div>
+                                                </div>
+                                                <p class="text-lg text-gray-700 mt-2">
+                                                    Time: {{ date('h:i A', strtotime($schedule->time_from)) }} - {{ date('h:i A', strtotime($schedule->time_to)) }}
+                                                </p>
+                                                <p class="text-lg text-gray-700 mt-2">
+                                                    Room: {{ $schedule->room }}
+                                                </p>
+                                                <form action="{{ route('student.subject.enroll') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="subject_code" value="{{ $subject->subject_code }}">
+                                                    <input type="hidden" name="schedule_id" value="{{ $schedule->id }}">
+                                                    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded mt-4">Enroll</button>
+                                                </form>
+                                                @if ($errors->has('enrollment_error'))
+                                                    <span class="text-red-500 text-sm">{{ $errors->first('enrollment_error') }}</span>
+                                                @endif
+                                            </div>
+                                        </li>
                                     @endforeach
-                                </div>
-
-                                <h3 class="text-lg font-bold text-gray-800 mb-2">Time:</h3>
-                                <p class="text-lg text-gray-700 pb-4">{{ date('h:i A', strtotime($subject->time_from)) }} until {{ date('h:i A', strtotime($subject->time_to)) }}</p>
-
-                                <h3 class="text-lg font-bold text-gray-800 mb-2">Room:</h3>
-                                <p class="text-lg text-gray-700 pb-4">{{ $subject->room }}</p>
-
-                                <p class="text-gray-600">{{ $subject->description }}</p>
-
-                                @if ($subject->isEnrolledByUser(auth()->user()))
-                                    @if ($subject->isEnrollmentApproved(auth()->user()))
-                                        <div class="bg-green-200 text-green-800 px-4 py-2 rounded-md mt-4">
-                                            Enrolled and Approved
-                                        </div>
-                                    @else
-                                        <div class="bg-yellow-200 text-yellow-800 px-4 py-2 rounded-md mt-4">
-                                            Awaiting Approval
-                                        </div>
-                                    @endif
-                                @else
-                                    <form action="{{ route('student.subject.enroll') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="subject_code" value="{{ $subject->subject_code }}">
-                                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded mt-4">Enroll</button>
-                                    </form>
-                                @endif
+                                </ul>
                             </div>
                         </li>
                     @endforeach

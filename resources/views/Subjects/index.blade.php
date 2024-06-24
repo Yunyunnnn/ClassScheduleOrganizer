@@ -1,4 +1,4 @@
-@extends('Teachers/teachers')
+@extends('Teachers.teachers')
 
 @section('title', 'Subjects')
 
@@ -20,7 +20,7 @@
             <tr>
                 <th class="py-3 px-6 text-left border-b border-gray-300">Name</th>
                 <th class="py-3 px-6 text-left border-b border-gray-300">Code</th>
-                <th class="py-3 px-6 text-left border-b border-gray-300">Days of the Week</th>
+                <th class="py-3 px-6 text-left border-b border-gray-300">Schedules</th>
                 <th class="py-3 px-6 text-center border-b border-gray-300">Actions</th>
             </tr>
         </thead>
@@ -30,37 +30,47 @@
                     <td class="py-4 px-6 border-b border-gray-300">{{ $subject->name }}</td>
                     <td class="py-4 px-6 border-b border-gray-300">{{ $subject->subject_code }}</td>
                     <td class="py-4 px-6 border-b border-gray-300">
-                        @foreach (explode(',', $subject->days_of_week) as $day)
-                            @php
-                                $dayAbbreviation = '';
-                                switch (trim($day)) {
-                                    case 'Monday':
-                                        $dayAbbreviation = 'M';
-                                        break;
-                                    case 'Tuesday':
-                                        $dayAbbreviation = 'T';
-                                        break;
-                                    case 'Wednesday':
-                                        $dayAbbreviation = 'W';
-                                        break;
-                                    case 'Thursday':
-                                        $dayAbbreviation = 'Th';
-                                        break;
-                                    case 'Friday':
-                                        $dayAbbreviation = 'F';
-                                        break;
-                                    case 'Saturday':
-                                        $dayAbbreviation = 'S';
-                                        break;
-                                    case 'Sunday':
-                                        $dayAbbreviation = 'Su';
-                                        break;
-                                    default:
-                                        $dayAbbreviation = '';
-                                        break;
-                                }
-                            @endphp
-                            <span class="inline-block px-2 py-1 text-xs font-semibold leading-none bg-gray-200 text-gray-800 rounded-full mr-1 mb-1">{{ $dayAbbreviation }}</span>
+                        @foreach ($subject->schedules as $schedule)
+                            <div class="mb-2">
+                                <div>{{ $schedule->block_number }}, Year {{ $schedule->year_level }}, {{ $schedule->course }}</div>
+                                <div>Time: {{ $schedule->time_from }} - {{ $schedule->time_to }}</div>
+                                <div>Days:
+                                    @foreach (explode(',', $schedule->days_of_week) as $day)
+                                        @php
+                                            $dayAbbreviation = '';
+                                            switch (trim($day)) {
+                                                case 'Monday':
+                                                    $dayAbbreviation = 'M';
+                                                    break;
+                                                case 'Tuesday':
+                                                    $dayAbbreviation = 'T';
+                                                    break;
+                                                case 'Wednesday':
+                                                    $dayAbbreviation = 'W';
+                                                    break;
+                                                case 'Thursday':
+                                                    $dayAbbreviation = 'Th';
+                                                    break;
+                                                case 'Friday':
+                                                    $dayAbbreviation = 'F';
+                                                    break;
+                                                case 'Saturday':
+                                                    $dayAbbreviation = 'S';
+                                                    break;
+                                                case 'Sunday':
+                                                    $dayAbbreviation = 'Su';
+                                                    break;
+                                                default:
+                                                    $dayAbbreviation = '';
+                                                    break;
+                                            }
+                                        @endphp
+                                        <span class="inline-block px-2 py-1 text-xs font-semibold leading-none bg-gray-200 text-gray-800 rounded-full mr-1 mb-1">{{ $dayAbbreviation }}</span>
+                                    @endforeach
+                                </div>
+                                <div>Room: {{ $schedule->room }}</div>
+                                <hr class="my-2">
+                            </div>
                         @endforeach
                     </td>
                     <td class="py-4 px-6 text-center border-b border-gray-300">

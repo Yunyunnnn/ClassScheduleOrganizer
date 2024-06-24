@@ -11,8 +11,6 @@ class CreateSubjectsTable extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->string('subject_code')->primary();
             $table->string('name');
-            $table->time('time_from');
-            $table->time('time_to');
             $table->foreignId('teacher_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

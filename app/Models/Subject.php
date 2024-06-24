@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Subject extends Model
@@ -15,7 +15,7 @@ class Subject extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'name', 'subject_code', 'time_from', 'time_to', 'teacher_id', 'days_of_week','room',
+        'name', 'subject_code', 'teacher_id', 'days_of_week', 'room',
     ];
 
     public function enrollments()
@@ -33,13 +33,6 @@ class Subject extends Model
         return $this->belongsTo(Teacher::class, 'teacher_id');
     }
 
-    public function students(): BelongsToMany
-    {
-        return $this->belongsToMany(Student::class, 'student_subject', 'subject_code', 'student_id')
-                    ->withPivot('approved')
-                    ->withTimestamps();
-    }
-
     public function isEnrolledByUser($student)
     {
         return $this->students()->where('student_subject.student_id', $student->student_id)->exists();
@@ -50,5 +43,16 @@ class Subject extends Model
         return $this->students()->where('student_subject.student_id', $student->student_id)->wherePivot('approved', true)->exists();
     }
 
+    public function students(): BelongsToMany
+    {
+        return $this->belongsToMany(Student::class, 'student_subject', 'subject_code', 'student_id')
+                    ->withPivot('schedule_id', 'approved')
+                    ->withTimestamps();
+    }
 
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class, 'subject_code', 'subject_code');
+    }
 }
+
