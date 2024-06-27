@@ -13,7 +13,9 @@ class Teacher extends Authenticatable
         'first_name',
         'last_name',
         'email',
-        // Add other fields as needed
+        'middle_initial',
+        'password',
+
     ];
 
     public function subjects()
@@ -21,5 +23,3 @@ class Teacher extends Authenticatable
         return $this->hasMany(Subject::class, 'teacher_id');
     }
 }
-
-

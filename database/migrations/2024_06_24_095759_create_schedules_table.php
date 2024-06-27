@@ -10,7 +10,7 @@ class CreateSchedulesTable extends Migration
     public function up()
     {
         Schema::create('schedules', function (Blueprint $table) {
-            $table->id(); // Creates an unsigned big integer 'id'
+            $table->id();
             $table->string('subject_code');
             $table->foreign('subject_code')->references('subject_code')->on('subjects')->onDelete('cascade');
             $table->string('course');
