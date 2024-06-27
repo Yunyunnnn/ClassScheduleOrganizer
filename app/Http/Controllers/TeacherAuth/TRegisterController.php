@@ -45,5 +45,3 @@ class TRegisterController extends Controller
 }
 
 
-    
-

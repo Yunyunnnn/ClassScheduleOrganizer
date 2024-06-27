@@ -17,14 +17,10 @@ class LoginController extends Controller
     {
         $credentials = $request->only('student_id', 'password');
 
-        \Log::info('Attempting login with credentials: ', $credentials);
-
         if (Auth::guard('student')->attempt($credentials)) {
-            \Log::info('Login successful, redirecting to home');
             return redirect()->intended(route('student.home'));
         }
 
-        \Log::warning('Login failed, redirecting back with error');
         return redirect()->back()->withErrors(['message' => 'Invalid credentials']);
     }
 

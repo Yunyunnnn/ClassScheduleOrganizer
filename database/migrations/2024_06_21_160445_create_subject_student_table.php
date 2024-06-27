@@ -8,19 +8,19 @@ class CreateSubjectStudentTable extends Migration
 {
     public function up()
     {
-        Schema::create('subject_student', function (Blueprint $table) {
+        Schema::create('student_subject', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subject_id')->constrained()->onDelete('cascade');
             $table->string('student_id');
             $table->foreign('student_id')->references('student_id')->on('students')->onDelete('cascade');
+            $table->string('subject_code');
+            $table->foreign('subject_code')->references('subject_code')->on('subjects')->onDelete('cascade');
+            $table->boolean('approved')->default(false);
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('subject_student');
+        Schema::dropIfExists('student_subject');
     }
 }
-
-

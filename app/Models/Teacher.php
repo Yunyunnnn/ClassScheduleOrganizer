@@ -2,24 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Teacher extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
 
     protected $fillable = [
-        'first_name', 'last_name', 'middle_initial', 'email', 'password', 'approved', 'dismissed_approval_message',
+        'first_name',
+        'last_name',
+        'email',
+        'middle_initial',
+        'password',
+
     ];
 
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class, 'teacher_id');
+    }
 }
-
